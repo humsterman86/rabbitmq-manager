@@ -15,10 +15,13 @@ parser.add_argument('-q','--queue', help='Get queue messages by name', required=
 args = parser.parse_args()
 
 if args.queue:
-    parameters = pika.ConnectionParameters('localhost')
-    connection = pika.BlockingConnection(parameters)
-    channel = connection.channel()
-    channel.queue_declare(queue=args.queue, exclusive=False,auto_delete=False)
-    channel.basic_consume(print_data, queue=args.queue)
-    channel.start_consuming()
-    connection.close()
+    try:
+	parameters = pika.ConnectionParameters('localhost')
+	connection = pika.BlockingConnection(parameters)
+	channel = connection.channel()
+	if (channel.queue_declare(queue=args.queue, exclusive=False,auto_delete=False, passive=True)):
+	    channel.basic_consume(print_data, queue=args.queue)
+	    channel.start_consuming()
+	    connection.close()
+    except:
+	print ("Wrong queue name - 404 Not found")
