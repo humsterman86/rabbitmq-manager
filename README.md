@@ -8,6 +8,6 @@ For install just execute:
 # Working with app:
 ## Inspect messages from queue: 
 
-./app.py -q QUEUE_NAME
+`./app.py -q QUEUE_NAME`
 
-App may be stopped with CMND (CTRL) + C
+App may be stopped with `CMND (CTRL) + C`
